@@ -10,18 +10,34 @@ public class PizzaProject {
             LARGE_TOPPING_PRICE = 1.5F,
             FAMILY_TOPPING_PRICE = 2.0F;
     public static Scanner keyboard = new Scanner(System.in);
+    enum PizzaSize {SMALL, LARGE, FAMILY, UNKNOWN}
 
 
     public static void main(String[] args) {
 
-        int numToppings = 0, quantity = 0;
-        double baseCost = 0, toppingCost = 0, pizzaCost = 0, totalCost = 0;
+        int numToppings, quantity;
+        double baseCost, toppingCost, pizzaCost, totalCost = 0;
         boolean orderMore;
+        PizzaSize size;
+
 
         do {
-            char letter = inputChar("yn", "Yes or No");
-            orderMore = (letter == 'y');
+            System.out.println("Please place an order for your pizza.");
+            char sizeChar = inputChar("slf", "Size (s = small, l = large, f = family)");
+            size = getPizzaSize(sizeChar);
+            numToppings = inputInt(1, 9, "Number of toppings");
+            quantity = inputInt(1, 5, "Quantity");
+            baseCost = getBaseCost(size);
+            toppingCost = getToppingCost(size);
+            pizzaCost = (baseCost + (toppingCost * numToppings)) * quantity;
+            totalCost += pizzaCost;
+            System.out.println("Pizza cost = " + pizzaCost);
+            System.out.println("Total cost = " + totalCost);
+            char yesNo = inputChar("yn", "Order more? (y/n)");
+            orderMore = (yesNo == 'y');
         } while (orderMore);
+        System.out.println("\nThank you for your order.");
+        System.out.println("Payment Due: " + totalCost);
 
     }
 
@@ -46,9 +62,9 @@ public class PizzaProject {
                 validInput = false;
                 System.out.println("You entered multiple characters. Please enter a single character.");
             } else {
-                if (allowableCharacters.contains(input)) {
+                if (allowableCharacters.contains(input.toLowerCase())) {
                     validInput = true;
-                    charSelected = input.charAt(0);
+                    charSelected = input.toLowerCase().charAt(0);
                 } else {
                     validInput = false;
                     System.out.println("You have entered an invalid character. Please try again.");
@@ -83,5 +99,32 @@ public class PizzaProject {
                         minimum, maximum);
             } else return number;
         }
+    }
+
+    public static PizzaSize getPizzaSize(char input) {
+        return switch (input) {
+            case 's' -> PizzaSize.SMALL;
+            case 'l' -> PizzaSize.LARGE;
+            case 'f' -> PizzaSize.FAMILY;
+            default -> PizzaSize.UNKNOWN;
+        };
+    }
+
+    public static double getBaseCost(PizzaSize size) {
+        return switch (size) {
+            case SMALL -> SMALL_BASE_PRICE;
+            case LARGE -> LARGE_BASE_PRICE;
+            case FAMILY -> FAMILY_BASE_PRICE;
+            default -> 0;
+        };
+    }
+
+    public static double getToppingCost(PizzaSize size) {
+        return switch (size) {
+            case SMALL -> SMALL_TOPPING_PRICE;
+            case LARGE -> LARGE_TOPPING_PRICE;
+            case FAMILY -> FAMILY_TOPPING_PRICE;
+            default -> 0;
+        };
     }
 }

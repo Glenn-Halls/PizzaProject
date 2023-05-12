@@ -1,3 +1,4 @@
+import java.text.NumberFormat;
 import java.util.Scanner;
 
 public class PizzaProject {
@@ -19,6 +20,7 @@ public class PizzaProject {
         double baseCost, toppingCost, pizzaCost, totalCost = 0;
         boolean orderMore;
         PizzaSize size;
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
 
 
         do {
@@ -31,13 +33,13 @@ public class PizzaProject {
             toppingCost = getToppingCost(size);
             pizzaCost = (baseCost + (toppingCost * numToppings)) * quantity;
             totalCost += pizzaCost;
-            System.out.println("Pizza cost = " + pizzaCost);
-            System.out.println("Total cost = " + totalCost);
+            System.out.println("Pizza cost = " + nf.format(pizzaCost));
+            System.out.println("Total cost = " + nf.format(totalCost));
             char yesNo = inputChar("yn", "Order more? (y/n)");
             orderMore = (yesNo == 'y');
         } while (orderMore);
         System.out.println("\nThank you for your order.");
-        System.out.println("Payment Due: " + totalCost);
+        System.out.println("Payment Due: " + nf.format(totalCost));
 
     }
 

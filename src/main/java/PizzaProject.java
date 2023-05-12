@@ -14,12 +14,15 @@ public class PizzaProject {
 
     public static void main(String[] args) {
 
-        int numToppings, quantity = 0;
-        double baseCost, toppingCost, pizzaCost, totalCost = 0;
-        boolean orderMore = true;
+        int numToppings = 0, quantity = 0;
+        double baseCost = 0, toppingCost = 0, pizzaCost = 0, totalCost = 0;
+        boolean orderMore;
 
-        System.out.println(inputChar("abc", "allowed abc"));
-        System.out.println(inputInt(2, 4, "2 to 4"));
+        do {
+            char letter = inputChar("yn", "Yes or No");
+            orderMore = (letter == 'y');
+        } while (orderMore);
+
     }
 
     /**

@@ -9,12 +9,7 @@ public class PizzaProject {
             SMALL_TOPPING_PRICE = 1.0F,
             LARGE_TOPPING_PRICE = 1.5F,
             FAMILY_TOPPING_PRICE = 2.0F;
-
     public static Scanner keyboard = new Scanner(System.in);
-
-
-
-
 
 
     public static void main(String[] args) {
@@ -23,55 +18,39 @@ public class PizzaProject {
         double baseCost, toppingCost, pizzaCost, totalCost = 0;
         boolean orderMore = true;
 
-        baseCost = selectBase();
-        System.out.println(baseCost);
-
+        System.out.println(inputChar("abc", "allowed abc"));
     }
 
-
-
-    public static double selectBase() {
-        boolean validOption = false;
-        char selection = '!';
-        double basePrice = 0;
-        while (!validOption) {
-            System.out.print("Size (s = small, l = large, f = family): ");
-            String input = keyboard.nextLine();
+    /**
+     * Display a prompt to the user requesting a single character input
+     * @param allowableCharacters The character/s permitted
+     * @param message The message prompting user for character input
+     * @return A single character from the String list of allowable characters
+     */
+    public static char inputChar(String allowableCharacters, String message) {
+        boolean validInput;
+        char charSelected = '!';
+        String input;
+        do {
+            System.out.print(message + ": ");
+            input = keyboard.nextLine();
             System.out.println();
-            if (input.length() != 1) {
-                System.out.println("Invalid Input:");
-                System.out.println("Please enter a single character and press enter.");
-                continue;
+            if (input.length() == 0) {
+                validInput = false;
+                System.out.println("You did not enter any characters, please try again.");
+            } else if (input.length() > 1) {
+                validInput = false;
+                System.out.println("You entered multiple characters. Please enter a single character.");
             } else {
-                try {
-                    selection = input.charAt(0);
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                    System.out.println("Error, shutting down.");
-                    System.exit(9);
+                if (allowableCharacters.contains(input)) {
+                    validInput = true;
+                    charSelected = input.charAt(0);
+                } else {
+                    validInput = false;
+                    System.out.println("You have entered an invalid character. Please try again.");
                 }
             }
-            switch (selection) {
-                case 'S':
-                case 's':
-                    validOption = true;
-                    basePrice =  SMALL_BASE_PRICE;
-                    break;
-                case 'L':
-                case 'l':
-                    validOption = true;
-                    basePrice = LARGE_BASE_PRICE;
-                    break;
-                case 'F':
-                case 'f':
-                    validOption = true;
-                    basePrice =  FAMILY_BASE_PRICE;
-                    break;
-                default:
-                    System.out.println("I'm sorry that is not a valid option.");
-                    System.out.println("Please select from the options below");
-            }
-        }
-        return basePrice;
+        } while (!validInput);
+        return charSelected;
     }
 }

@@ -19,6 +19,7 @@ public class PizzaProject {
         boolean orderMore = true;
 
         System.out.println(inputChar("abc", "allowed abc"));
+        System.out.println(inputInt(2, 4, "2 to 4"));
     }
 
     /**
@@ -52,5 +53,32 @@ public class PizzaProject {
             }
         } while (!validInput);
         return charSelected;
+    }
+
+    /**
+     * Prompts a user to enter an integer in a range between two numbers (inclusive).
+     * @param minimum The minimum number allowed (inclusive).
+     * @param maximum The maximum number allowed (inclusive).
+     * @param message Message prompting user to enter an integer between minimum and maximum
+     * @return Integer from the user between the minimum and maximum allowed.
+     */
+    public static int inputInt(int minimum, int maximum, String message) {
+        String input;
+        int number;
+        while (true) {
+            System.out.print(message + ": ");
+            input = keyboard.nextLine();
+            System.out.println();
+            try {
+                number = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("That is not a valid number. Please try again.");
+                continue;
+            }
+            if (number < minimum || number > maximum) {
+                System.out.printf("That is not a valid option, please choose a number between %d and %d.%n",
+                        minimum, maximum);
+            } else return number;
+        }
     }
 }

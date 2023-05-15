@@ -27,6 +27,7 @@ public class PizzaOrder {
             orderMore = (yesNo == 'y');
         } while (orderMore);
         System.out.println("Thank you for you order.");
+        System.out.println("Pizzas ordered: " + Pizza.getNumPizzas());
         System.out.println("Amount Due: " + cost.format(totalCost));
     }
 

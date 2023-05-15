@@ -1,8 +1,11 @@
 package Pizzeria;
 
 import java.text.NumberFormat;
+import java.util.Objects;
 
 public class Pizza {
+
+    private static int numPizzas = 0;
 
     public static final float
             SMALL_BASE_PRICE = 8.0F,
@@ -18,6 +21,20 @@ public class Pizza {
     private int numToppings;
     private int quantity;
 
+    public Pizza() {
+        setBaseSize(PizzaSize.SMALL);
+        setNumToppings(1);
+        setQuantity(1);
+        numPizzas++;
+    }
+
+    public Pizza(Pizza copy) {
+        this.baseSize = copy.baseSize;
+        this.quantity = copy.quantity;
+        this.numToppings = copy.numToppings;
+        numPizzas += this.quantity;
+    }
+
     public Pizza (char base, int toppings, int num) {
         setBaseSize(switch (base) {
             case 's' -> PizzaSize.SMALL;
@@ -27,17 +44,14 @@ public class Pizza {
         });
         setNumToppings(toppings);
         setQuantity(num);
+        numPizzas += num;
     }
 
-    public Pizza() {
-        setBaseSize(PizzaSize.SMALL);
-        setNumToppings(1);
-        setQuantity(1);
-    }
 
     public String getBaseSize() {return baseSize.toString();}
     public int getNumToppings() {return numToppings;}
     public int getQuantity() {return quantity;}
+    public static int getNumPizzas() {return numPizzas;}
 
     public void setBaseSize(PizzaSize baseSize) {this.baseSize = baseSize;}
     public void setNumToppings(int numToppings) {this.numToppings = numToppings;}
@@ -71,5 +85,11 @@ public class Pizza {
         message += ", number of toppings: " + getNumToppings();
         message += ", quantity ordered: " + getQuantity();
         return message;
+    }
+
+    public boolean equals(Pizza another) {
+        return (Objects.equals(this.getBaseSize(), another.getBaseSize())
+                && this.getNumToppings() == another.getNumToppings()
+                && this.getQuantity() == another.getQuantity());
     }
 }

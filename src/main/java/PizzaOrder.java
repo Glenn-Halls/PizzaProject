@@ -1,3 +1,9 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Random;
+import java.util.Scanner;
+
 // Begin PizzaOrder.java
 // Represents a pizza order (bases and toppings) and the costs.
 public class PizzaOrder {
@@ -8,15 +14,46 @@ public class PizzaOrder {
     public static final double SMALL_TOPPING_PRICE = 1.0;
     public static final double LARGE_TOPPING_PRICE = 1.5;
     public static final double FAMILY_TOPPING_PRICE = 2.0;
+    private static int line3;
+
     // Calculates the cost of a fixed pizza order.
     public static void main(String[] args) {
+        Random rng = new Random();
+
+        // Read File
+        int line1 = 0;
+        int line2 = 0;
+        try {
+            File order = new File("order.txt");
+            if (!order.isFile()) {
+                System.out.println("Error, file does not exist");
+                System.exit(3);
+            }
+            Scanner textReader = new Scanner(new FileInputStream("order.txt"));
+            try {
+                line1 = Integer.parseInt(textReader.nextLine());
+                line2 = Integer.parseInt(textReader.nextLine());
+                line3 = Integer.parseInt(textReader.nextLine());
+            } catch (Exception nlf) {
+                System.out.println("Error: no line found");
+                System.exit(4);
+            }
+
+        } catch (FileNotFoundException fnf) {
+            System.out.println("I'm sorry, that file does not exist");
+            System.exit(1);
+        } catch (Exception e) {
+            System.out.println("I'm sorry, an error occurred");
+            System.out.println(2);
+        }
+
 // Order details. Adjust according to the order.
-        int numSmallPizzas = 2;
-        int numLargePizzas = 2;
-        int numFamilyPizzas = 1;
-        int numSmallToppings = 3;
-        int numLargeToppings = 4;
-        int numFamilyToppings = 6;
+        int numSmallPizzas = line1;
+        int numLargePizzas = line2;
+        int numFamilyPizzas = line3;
+        int numSmallToppings = rng.nextInt(6) + 1;
+        int numLargeToppings = rng.nextInt(6) + 1;
+        int numFamilyToppings = rng.nextInt(6) + 1;
 // Storing costs.
         double smallCost = 0.0;
         double largeCost = 0.0;

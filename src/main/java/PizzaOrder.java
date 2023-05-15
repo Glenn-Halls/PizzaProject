@@ -37,6 +37,8 @@ public class PizzaOrder {
             } catch (Exception nlf) {
                 System.out.println("Error: no line found");
                 System.exit(4);
+            } finally {
+                textReader.close();
             }
 
         } catch (FileNotFoundException fnf) {
@@ -80,5 +82,29 @@ public class PizzaOrder {
 // Overall cost.
         System.out.print("Total cost is: $");
         System.out.println(totalCost);
+
+        File menu = new File("menu.txt");
+        if (menu.isFile()) {
+            try {
+                Scanner text = new Scanner(menu);
+                while (text.hasNextLine()) {
+                    String line = text.nextLine();
+                    if (line.toLowerCase().contains("chicken")) {
+                        System.out.print("HOT ");
+                    }
+                    System.out.println(line);
+
+                }
+                text.close();
+            } catch (FileNotFoundException fnf) {
+                System.out.println("Error");
+            }
+
+
+        } else {
+            System.out.println("no such file exists");
+            System.exit(5);
+        }
     }
 }
+

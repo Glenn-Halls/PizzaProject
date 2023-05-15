@@ -6,29 +6,40 @@ import java.util.Scanner;
 public class PizzaOrder {
 
     static Scanner keyboard = new Scanner(System.in);
+    public static final int MAX_PIZZAS = 10;
 
 
-    public static void order () {
+    public static Pizza[] order () {
 
         boolean orderMore;
         double totalCost = 0;
         NumberFormat cost = NumberFormat.getCurrencyInstance();
+        int numOrders = 0;
+        Pizza[] PizzaArray = new Pizza[MAX_PIZZAS];
 
         do {
             System.out.println("Please place an order for your pizza.");
             char sizeChar = inputChar("slf", "Size (s = small, l = large, f = family)");
             int toppings = inputInt(1, 9, "Number of toppings");
             int num = inputInt(1, 5, "Quantity");
+            while ((num + Pizza.getNumPizzas()) > MAX_PIZZAS){
+                System.out.println("I'm sorry, you have ordered too many pizzas, please try again.");
+                num = inputInt(1,5, "Quantity");
+            }
             Pizza ThisPizza = new Pizza(sizeChar, toppings, num);
-            System.out.println("Pizza cost = " + ThisPizza.calculateCostString());
-            totalCost += ThisPizza.calculateCost();
-            System.out.println("Total Cost: " + cost.format(totalCost));
-            char yesNo = inputChar("yn", "Order more? (y/n)");
-            orderMore = (yesNo == 'y');
-        } while (orderMore);
+            if (Pizza.getNumPizzas() < MAX_PIZZAS) {
+                System.out.println("Pizza cost = " + ThisPizza.calculateCostString());
+                totalCost += ThisPizza.calculateCost();
+                System.out.println("Total Cost: " + cost.format(totalCost));
+                char yesNo = inputChar("yn", "Order more? (y/n)");
+                orderMore = (yesNo == 'y');
+            } else orderMore = false;
+            PizzaArray[numOrders] = ThisPizza;
+        } while (orderMore && (Pizza.getNumPizzas() < MAX_PIZZAS));
         System.out.println("Thank you for you order.");
         System.out.println("Pizzas ordered: " + Pizza.getNumPizzas());
         System.out.println("Amount Due: " + cost.format(totalCost));
+        return PizzaArray;
     }
 
 
